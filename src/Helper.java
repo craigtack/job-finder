@@ -2,20 +2,32 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
 import java.io.*;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
+import java.net.SocketTimeoutException;
 import java.util.ArrayList;
 import java.util.Date;
 
 public class Helper {
-    public static Document getDoc(String url) {
+    public static Document getDoc(String url, boolean pause) {
+        if (pause) {
+            pause();
+        }
         Document doc = null;
         try {
             doc = Jsoup.connect(url).get();
+        } catch (SocketTimeoutException e) {
+            getDoc(url, true);
         } catch (IOException e) {
             e.printStackTrace();
         }
         return doc;
+    }
+
+    public static void pause() {
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     public static <T> ArrayList<T> readFile(Class<T> clazz, String fileName) {
