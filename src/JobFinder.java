@@ -8,7 +8,6 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.prefs.Preferences;
 
 public class JobFinder {
     private ArrayList<Job> jobs;
@@ -31,7 +30,7 @@ public class JobFinder {
         // "Constants"
         DIR = config.get("path").get("dir");
         MONSTER_BEGIN = "http://jobsearch.monster.com/search/" +
-                config.get("monster").get("state").replace(' ', '-') + "+Southern_12q=" +
+                config.get("monster").get("state").replace(' ', '-') + "+Southern_12?q=" +
                 config.get("monster").get("keyword").replace(',', '-') + "&pg=";
         MONSTER_END = "&where=" + config.get("monster").get("zip") + "&rad=" +
                 config.get("monster").get("radius") + "-miles&sort=di.rv.dt";
@@ -64,10 +63,13 @@ public class JobFinder {
         if (args[0].equals("both")) {
             new JobFinder("monster").start(MONSTER_MAX, 1, "monster");
             new JobFinder("indeed").start(INDEED_MAX * 10, 10, "indeed");
+            return;
         } else if (args[0].equals("monster")) {
             new JobFinder("monster").start(MONSTER_MAX, 1, "monster");
+            return;
         } else if (args[0].equals("indeed")) {
             new JobFinder("indeed").start(INDEED_MAX * 10, 10, "indeed");
+            return;
         }
 
         // Add
@@ -104,16 +106,14 @@ public class JobFinder {
     START
      */
     public void start(int max, int increment, String website) {
-        Document doc = null;
         String url = null;
-        // TODO: fix max, debugging
-        for (int i = 0; i < 10; i += increment) {
+        for (int i = 0; i < max; i += increment) {
             if (website.equals("monster")) {
                 url = MONSTER_BEGIN + String.valueOf(i + 1) + MONSTER_END;
             } else {
                 url = INDEED_URL + String.valueOf(i);
             }
-            parseHTML(Helper.getDoc(url), website);
+            parseHTML(Helper.getDoc(url, false), website);
         }
         if (!jobs.isEmpty()) {
             commit(website);
@@ -136,13 +136,14 @@ public class JobFinder {
             }
         } else {
             Elements containers = doc.getElementsByClass("row");
-            Url longURL = null;
+            //Url longURL = null;
             for (Element info : containers) {
-                longURL = new Url();
-                longURL.setLongUrl("http://www.indeed.com" + info.child(0).attr("href"));
-                String shortURL = longURL.
+                //longURL = new Url();
+                //longURL.setLongUrl("http://www.indeed.com" + info.child(0).attr("href"));
+                //String shortURL = longURL.
                 job = new Job(info.child(0).text(), info.getElementsByClass("company").text(),
-                        info.getElementsByClass("location").text(), "http:www.indeed.com" + info.child(0).attr("href"));
+                        info.getElementsByClass("location").text(), "http://www.indeed.com" +
+                        info.select("a").first().attr("href"));
                 if (checkJob(job)) {
                     jobs.add(job);
                 }
