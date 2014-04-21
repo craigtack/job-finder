@@ -126,9 +126,9 @@ public class JobFinder {
         System.out.println("both" + "\t\t\t\t\t\t\t" + "Search both Monster and Indeed job listings");
         System.out.println("addFilter" + "\t\t\t\t\t\t" + "Add filter. Requires additional parameter, see PARAMETERS.");
         System.out.println("\nPARAMETERS");
-        System.out.println("--title=\"title\"" + "\t\t\t\t\t" + "Specify job title to be filtered");
-        System.out.println("--company=\"location\"" + "\t\t\t" + "Specify company to be filtered");
-        System.out.println("--location=\"location\"" + "\t\t\t" + "Specify location to be filtered");
+        System.out.println("--title=title" + "\t\t\t\t\t" + "Specify job title to be filtered");
+        System.out.println("--company=company" + "\t\t\t" + "Specify company to be filtered");
+        System.out.println("--location=location" + "\t\t\t" + "Specify location to be filtered");
         System.out.println("\nNote: Configuration file (config.ini) must be completed prior to use");
     }
 }
