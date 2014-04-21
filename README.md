@@ -31,3 +31,9 @@ Meaning: Don't show jobs containing Administrator (case-insensitive) in the job 
 - --title="title" - specify job title to be filtered
 - --company="company" - specify company to filtered
 - --location="location" - specify location to be filtered (This currently only supports city name)
+
+## Dependencies
+The follwing libraries are required in order to compile and run:
+- javax.mail
+- ini4j.0.5.2
+- jsoup.1.7.3
