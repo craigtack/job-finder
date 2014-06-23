@@ -1,3 +1,5 @@
+#### Note: Due to Monster.com and Indeed.com's Terms of Use regarding scraping, it is not advisable to use this application.
+
 job-finder
 ==========
 
